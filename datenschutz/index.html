@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Datenschutzerklärung – dandanfinance</title>
+<title>Datenschutzerklärung — dandanfinance</title>
 <meta name="description" content="Datenschutzerklärung für dandanfinance.de – welche Daten beim Besuch dieser Website verarbeitet werden und welche Rechte Sie haben.">
 
 <!-- Diese Erklaerung setzt voraus, dass auf dandanfinance.de nichts
@@ -28,9 +28,97 @@ body{margin:0; font-family:'Montserrat',system-ui,-apple-system,sans-serif;
   font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;}
 img{max-width:100%; display:block;}
 
-.header{background:var(--tuerkis); color:var(--creme); padding:16px 20px; text-align:center;
-  font-weight:700; font-size:13px; letter-spacing:.5px;}
-.header .handle{font-weight:800;}
+/* ---------- Kopfleiste mit Hauptmenü ----------
+   Kein Burgermenue: Die drei Hauptpunkte stehen immer sichtbar in der
+   Leiste. Auf schmalen Schirmen rutscht das Menue in eine zweite Zeile
+   und laesst sich seitlich schieben, statt zu brechen. */
+.top{position:sticky; top:0; z-index:50; background:var(--tuerkis);
+  color:var(--creme); display:flex; align-items:center; flex-wrap:wrap;
+  gap:6px 16px; padding:10px 18px;}
+
+/* Der Schriftzug links fuehrt zur Startseite. Farbe und Unterstreichung
+   muessen ausdruecklich zurueckgesetzt werden, sonst greift a{} oben und
+   der Text wird tuerkis auf tuerkis. */
+.top .claim{font-weight:700; font-size:13px; letter-spacing:.5px;
+  color:var(--creme); text-decoration:none; flex:0 0 auto;
+  display:flex; align-items:center; gap:9px;}
+.top .claim .mark{flex:none; width:24px; height:auto;}
+.top a.claim:hover b{color:var(--gold);}
+.top a.claim:focus-visible{outline:3px solid var(--gold); outline-offset:3px;}
+/* color:inherit ist nötig: Einige Seiten faerben b und strong dunkeltuerkis,
+   das waere hier dunkel auf tuerkis. */
+.top .claim b{font-weight:800; color:inherit;}
+
+.haupt{display:flex; align-items:center; gap:2px; margin-left:auto;}
+.ni{position:relative; display:flex; align-items:center;}
+.ni > a, .ni > .bald{color:var(--creme); text-decoration:none; font-weight:700;
+  font-size:13.5px; padding:8px 4px 8px 9px; white-space:nowrap;
+  border-radius:7px 0 0 7px;}
+.ni:last-child > a{padding-right:9px;}
+.ni > a:hover{color:var(--gold);}
+.ni > a[aria-current="page"]{color:var(--gold);
+  box-shadow:inset 0 -2px 0 var(--gold);}
+.ni > a:focus-visible, .pfeil:focus-visible{outline:3px solid var(--gold);
+  outline-offset:-1px;}
+.ni > .bald{color:rgba(248,246,241,.5); display:flex; align-items:center;
+  gap:7px;}
+.ni > .bald em{font-style:normal; font-size:9px; font-weight:700;
+  text-transform:uppercase; letter-spacing:1px; color:var(--gold);
+  border:1px solid var(--gold); border-radius:20px; padding:1px 6px;}
+
+/* Der Pfeil ist ein eigener Knopf, damit der Hauptpunkt ein Verweis
+   bleibt: Antippen fuehrt auf die Seite, der Pfeil klappt auf. */
+.pfeil{background:none; border:none; cursor:pointer; color:var(--creme);
+  padding:9px 8px 9px 4px; display:flex; align-items:center;
+  border-radius:0 7px 7px 0;}
+.pfeil svg{width:11px; height:auto; display:block;
+  transition:transform .16s ease;}
+.ni.offen .pfeil svg{transform:rotate(180deg);}
+.pfeil:hover{color:var(--gold);}
+
+.unter{display:none; position:absolute; top:100%; right:0; z-index:60;
+  min-width:230px; max-width:calc(100vw - 28px);
+  background:var(--tuerkis-dark); border:1px solid rgba(248,246,241,.18);
+  border-radius:10px; padding:6px; margin-top:0;
+  box-shadow:0 10px 24px rgba(0,0,0,.26);}
+.ni.offen > .unter{display:block;}
+.unter a{display:block; color:var(--creme); text-decoration:none;
+  font-weight:600; font-size:13.5px; line-height:1.3; padding:9px 11px;
+  border-radius:7px;}
+.unter a:hover{background:rgba(248,246,241,.1); color:var(--gold);}
+.unter a:focus-visible{outline:2px solid var(--gold); outline-offset:-2px;}
+
+/* Nur mit echtem Zeiger aufklappen. Auf Touchgeraeten gibt es kein
+   Darueberfahren — dort uebernimmt der Pfeilknopf. */
+@media (hover:hover) and (pointer:fine){
+  .ni:hover > .unter, .ni:focus-within > .unter{display:block;}
+}
+
+@media (max-width:640px){
+  .top{gap:4px 10px; position:sticky;}
+  .top .claim{flex:1 1 100%;}
+  /* Umbrechen statt abschneiden: Passen die drei Punkte nicht in eine
+     Zeile, rutscht der letzte in die naechste. Abgeschnitten waere er
+     unerreichbar. */
+  .haupt{margin-left:-7px; width:100%; justify-content:flex-start;
+    flex-wrap:wrap; gap:0 2px;}
+  .ni > a{font-size:13px; padding-left:7px;}
+  /* Bezugspunkt ist die Leiste, nicht der Menuepunkt: So laeuft das
+     Untermenue ueber die ganze Breite und haengt nicht halb ausserhalb
+     des Bildschirms. */
+  .ni{position:static;}
+  .unter{left:10px; right:10px; min-width:0; max-width:none;
+    max-height:70vh; overflow-y:auto;}
+}
+
+/* Fußzeile wie auf den übrigen Seiten: ohne Trennlinie, volle Breite. */
+.footer{border-top:none; margin-top:0; padding:28px 0 40px;
+  text-align:center; font-size:12.5px; color:var(--grau); line-height:1.9;}
+.footer .logo{width:44px; margin:0 auto 14px; opacity:.75;}
+.footer a{color:var(--tuerkis); font-weight:600; text-decoration:none;}
+.footer a:hover{text-decoration:underline;}
+.footer .social{margin-bottom:8px;}
+.footer .cr{margin-top:12px; opacity:.7;}
 
 .wrap{max-width:640px; margin:0 auto; padding:30px 20px 56px;}
 
@@ -78,13 +166,6 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px;
 .tbl tr:last-child td{border-bottom:none;}
 .tbl a{word-break:break-word;}
 
-.footer{border-top:1px solid var(--rahmen); margin-top:44px; padding-top:24px;
-  text-align:center; font-size:12.5px; color:var(--grau); line-height:1.9;}
-.footer .logo{width:44px; margin:0 auto 14px; opacity:.75;}
-.footer a{color:var(--tuerkis); font-weight:600; text-decoration:none;}
-.footer a:hover{text-decoration:underline;}
-.footer .cr{margin-top:12px; opacity:.7;}
-.footer .stand{margin-top:6px; opacity:.7; font-size:11.5px;}
 
 @media (max-width:420px){
   h1{font-size:25px;}
@@ -96,7 +177,57 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px;
 </head>
 <body>
 
-<div class="header"><span class="handle">@dandanfinance</span> · doppelt so viel Durchblick</div>
+<div class="top">
+  <a class="claim" href="/" aria-label="Zur Startseite"><img class="mark" src="data:image/png;base64,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" alt=""><span><b>dandanfinance</b> · doppelt so viel Durchblick</span></a>
+  <nav class="haupt" aria-label="Hauptmenü">
+    <div class="ni">
+      <a href="/">Start</a>
+    </div>
+    <div class="ni">
+      <a href="/wer-wir-sind/">Wer wir sind</a>
+      <button class="pfeil" type="button" aria-expanded="false"
+              aria-controls="um1"
+              aria-label="Unterseiten zu Wer wir sind anzeigen"
+              onclick="menuAuf(this)">
+        <svg viewBox="0 0 12 8" aria-hidden="true" focusable="false">
+          <path d="M1 1.5 6 6.5l5-5" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round"/></svg>
+      </button>
+      <div class="unter" id="um1">
+        <a href="/danil/">Danil Zikow</a>
+        <a href="/daniel/">Daniel Klimmer</a>
+      </div>
+    </div>
+    <div class="ni">
+      <a href="/deine-vorteile/">Deine Vorteile</a>
+      <button class="pfeil" type="button" aria-expanded="false"
+              aria-controls="um2"
+              aria-label="Unterseiten zu Deine Vorteile anzeigen"
+              onclick="menuAuf(this)">
+        <svg viewBox="0 0 12 8" aria-hidden="true" focusable="false">
+          <path d="M1 1.5 6 6.5l5-5" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round"/></svg>
+      </button>
+      <div class="unter" id="um2">
+        <a href="/deine-vorteile/zahlungsverkehr/">Zahlungsverkehr</a>
+        <a href="/deine-vorteile/krankenversicherung/">Krankenversicherung</a>
+        <a href="/deine-vorteile/haftpflichtversicherung/">Haftpflichtversicherung</a>
+        <a href="/deine-vorteile/einkommensabsicherung/">Einkommensabsicherung</a>
+        <a href="/deine-vorteile/individuelle-risiken/">Absicherung individueller Risiken</a>
+        <a href="/deine-vorteile/altersvorsorge/">Altersvorsorge</a>
+        <a href="/deine-vorteile/kapitalmarktanlage/">Kapitalmarktanlage</a>
+        <a href="/deine-vorteile/kapitalanlageimmobilie/">Kapitalanlageimmobilie</a>
+        <a href="/deine-vorteile/din-77230/">Analyse nach DIN 77230</a>
+        <a href="/deine-vorteile/rechtliche-vorsorge/">Rechtliche Vorsorge</a>
+        <a href="/deine-vorteile/finanzierung/">Finanzierung</a>
+        <a href="/deine-vorteile/kinder/">Absicherung für Kinder</a>
+        <a href="/deine-vorteile/selbststaendige/">Absicherung für Selbstständige und Unternehmer</a>
+      </div>
+    </div>
+  </nav>
+</div>
 
 <div class="wrap">
 
@@ -109,8 +240,8 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px;
     <p class="label">Das Wichtigste in drei Sätzen</p>
     <p>Diese Website läuft ohne Cookies, ohne Analyse-Tools und ohne Werbenetzwerke. Schriften und
     Bilder liegen auf unserem eigenen Server, es wird beim Aufruf nichts von fremden Anbietern
-    nachgeladen. Daten entstehen nur dort, wo Sie sie selbst eingeben — bei einer Terminbuchung oder
-    wenn Sie uns schreiben.</p>
+    nachgeladen. Daten entstehen nur dort, wo Sie sie selbst eingeben — im Kontaktformular, bei
+    einer Terminbuchung oder wenn Sie uns schreiben.</p>
   </div>
 
   <h2>1. Wer für die Verarbeitung verantwortlich ist</h2>
@@ -146,7 +277,9 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px;
     sind direkt in die Seiten eingebettet</li>
     <li>keine eingebetteten Inhalte Dritter — keine Videos, keine Kalender, keine Social-Media-Feeds
     in iframes; alles Externe ist ausschließlich verlinkt</li>
-    <li>keine Newsletter-Anmeldung, kein Kontaktformular</li>
+    <li>keine Newsletter-Anmeldung</li>
+    <li>kein Formular, das auf dieser Website selbst Daten entgegennimmt — unser
+    Kontaktformular liegt bei Microsoft und ist nur verlinkt (Abschnitt 4)</li>
     <li>kein Profiling und keine automatisierte Entscheidungsfindung nach Art. 22 DSGVO</li>
   </ul>
 
@@ -188,23 +321,54 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px;
   <p>Mehr dazu in der Datenschutzerklärung von GitHub:
   <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">docs.github.com</a></p>
 
-  <h2>4. Terminbuchung über Microsoft Bookings</h2>
+  <h2>4. Kontaktformular und Terminbuchung</h2>
 
-  <p>Auf dieser Website können Sie direkt einen Beratungstermin buchen. Der Kalender dafür stammt
-  von <b>Microsoft Bookings</b>, einem Dienst der Microsoft Ireland Operations Limited, One
+  <p>An zwei Stellen können Sie uns Daten übermitteln: über unser <b>Kontaktformular</b> und über
+  die <b>Terminbuchung</b>. Beides läuft über Dienste von Microsoft — konkret Microsoft Forms
+  und Microsoft Bookings, beide angeboten von der Microsoft Ireland Operations Limited, One
   Microsoft Place, South County Business Park, Leopardstown, Dublin 18, Irland.</p>
 
-  <h3>Der Kalender ist nicht eingebettet</h3>
+  <h3>Nichts davon ist eingebettet</h3>
 
-  <p>Wir binden den Buchungskalender <b>nicht</b> in unsere Seiten ein. Der Button „Termin
-  vereinbaren" ist ein gewöhnlicher Link, der die Buchungsseite von Microsoft in einem neuen
-  Tab öffnet. Solange Sie ihn nicht anklicken, wird beim Besuch unserer Website nichts an Microsoft
-  übertragen — auch nicht Ihre IP-Adresse.</p>
+  <p>Wir binden weder das Formular noch den Buchungskalender in unsere Seiten ein. Die Schaltflächen
+  „Kostenloses Erstgespräch anfragen" und „Termin vereinbaren" sind gewöhnliche Links, die die
+  jeweilige Seite von Microsoft in einem neuen Tab öffnen. Solange Sie sie nicht anklicken, wird
+  beim Besuch unserer Website nichts an Microsoft übertragen — auch nicht Ihre IP-Adresse.</p>
 
-  <p>Klicken Sie den Link an, verlassen Sie unsere Website. Ab diesem Moment gilt für den Aufruf der
-  Buchungsseite die Datenschutzerklärung von Microsoft.</p>
+  <p>Klicken Sie einen der Links an, verlassen Sie unsere Website. Ab diesem Moment gilt für den
+  Aufruf der Microsoft-Seite die Datenschutzerklärung von Microsoft.</p>
 
-  <h3>Wenn Sie dort einen Termin buchen</h3>
+  <h3>Wenn Sie das Kontaktformular ausfüllen</h3>
+
+  <p>Abgefragt werden Ihr Name, Ihre E-Mail-Adresse und Ihr Anliegen; freiwillig zusätzlich Ihre
+  Telefonnummer, wann wir Sie am besten erreichen und wer uns empfohlen hat. Eine Anmeldung bei
+  Microsoft ist dafür nicht nötig, und wir erfassen keine Microsoft-Identität.</p>
+
+  <p>Ihre Angaben werden anschließend automatisiert weiterverarbeitet: Sie werden in eine
+  Excel-Liste in unserem Microsoft-365-Speicher übertragen, wir erhalten eine Benachrichtigung,
+  und Sie bekommen eine Eingangsbestätigung per E-Mail. Diese Automatisierung läuft über
+  <b>Microsoft Power Automate</b>. Eine automatisierte Entscheidung über Ihre Anfrage im Sinne
+  des Art. 22 DSGVO findet dabei nicht statt — wir lesen und beantworten jede Anfrage selbst.</p>
+
+  <div class="card card--gold">
+    <p class="label">Ihre Anfrage geht an uns beide</p>
+    <p style="margin-bottom:0">dandanfinance ist der gemeinsame Auftritt zweier rechtlich
+    selbstständiger Versicherungsmakler. Eine Anfrage über das Kontaktformular erreicht deshalb
+    <b>Danil Zikow und Daniel Klimmer gleichermaßen</b>; wer sie übernimmt, klären wir
+    anschließend untereinander. Möchten Sie ausdrücklich nur von einem von uns kontaktiert werden,
+    schreiben Sie das bitte in das Feld für Ihr Anliegen — oder wenden Sie sich direkt per E-Mail
+    an die betreffende Person. Die Adressen stehen im <a href="/impressum/">Impressum</a>.</p>
+  </div>
+
+  <p><b>Rechtsgrundlage</b> ist Art. 6 Abs. 1 lit. b DSGVO: Die Verarbeitung dient der Durchführung
+  vorvertraglicher Maßnahmen auf Ihre Anfrage hin.</p>
+
+  <p><b>Speicherdauer.</b> Entsteht aus Ihrer Anfrage keine Geschäftsbeziehung, löschen wir sie
+  spätestens sechs Monate nach der letzten Kontaktaufnahme aus der Liste. Entsteht eine
+  Geschäftsbeziehung, gelten die handels- und steuerrechtlichen Aufbewahrungsfristen von bis zu
+  zehn Jahren.</p>
+
+  <h3>Wenn Sie einen Termin buchen</h3>
 
   <p>Für die Buchung geben Sie Name, E-Mail-Adresse und je nach Terminart weitere Angaben wie
   Telefonnummer oder eine kurze Beschreibung Ihres Anliegens an. Diese Daten verarbeiten wir, um
@@ -213,24 +377,24 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px;
   <p><b>Rechtsgrundlage</b> ist Art. 6 Abs. 1 lit. b DSGVO, da die Verarbeitung der Durchführung
   vorvertraglicher Maßnahmen auf Ihre Anfrage hin dient.</p>
 
-  <h3>Wer an dieser Buchung beteiligt ist</h3>
+  <h3>Wer daran beteiligt ist</h3>
 
-  <p>Damit Sie wissen, wo Ihre Termindaten tatsächlich landen — an dieser einen Stelle ist ein
+  <p>Damit Sie wissen, wo Ihre Daten tatsächlich landen — an dieser einen Stelle ist ein
   weiteres Unternehmen im Spiel, und zwar ausschließlich hier:</p>
 
   <div class="card card--gold">
-    <p class="label">Betreiber des Buchungskalenders</p>
-    <p>Wir nutzen für die Terminbuchung <b>nicht</b> ein eigenes System, sondern den
-    Microsoft-365-Mandanten der <b>Lorem Ipsum Finanz GmbH</b>, Breslauer Str. 19a, 90513 Zirndorf,
-    vertreten durch Geschäftsführer Thomas Hübner. Sie erkennen das an der Adresse des Kalenders,
-    die auf <code>@lif.gmbh</code> endet.</p>
+    <p class="label">Betreiber der genutzten Microsoft-Umgebung</p>
+    <p>Wir nutzen für Kontaktformular und Terminbuchung <b>nicht</b> ein eigenes System, sondern
+    den Microsoft-365-Mandanten der <b>Lorem Ipsum Finanz GmbH</b>, Breslauer Str. 19a,
+    90513 Zirndorf, vertreten durch Geschäftsführer Thomas Hübner. Sie erkennen das an unseren
+    E-Mail-Adressen und an der Adresse des Kalenders, die auf <code>@lif.gmbh</code> enden.</p>
     <p style="margin-bottom:0">Mit der Lorem Ipsum Finanz GmbH arbeiten wir als Versicherungsmakler
-    zusammen; sie übernimmt für uns unter anderem die technische Abwicklung. Ihre Termindaten
-    werden dort gespeichert und sind für sie technisch zugänglich. Verwendet werden sie
-    ausschließlich dafür, Ihren Termin mit uns zustande zu bringen.</p>
+    zusammen; sie übernimmt für uns unter anderem die technische Abwicklung. Ihre Anfrage- und
+    Termindaten werden dort gespeichert und sind für sie technisch zugänglich. Verwendet werden sie
+    ausschließlich dafür, Ihr Anliegen bei uns zu bearbeiten.</p>
   </div>
 
-  <p>Die Verarbeitungskette sieht damit so aus: Verantwortlich für den Termin sind wir. Die Lorem
+  <p>Die Verarbeitungskette sieht damit so aus: Verantwortlich sind wir. Die Lorem
   Ipsum Finanz GmbH stellt die dafür genutzte Umgebung bereit. Microsoft betreibt die Software
   darunter. Mit beiden bestehen die dafür erforderlichen Vereinbarungen zur Auftragsverarbeitung
   nach Art. 28 DSGVO — im Fall von Microsoft auf Grundlage des Products and Services Data
@@ -238,7 +402,8 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px;
   in Drittländern ist dabei nicht vollständig auszuschließen.</p>
 
   <p><b>Für den Rest dieser Website gilt das nicht.</b> Wenn Sie dandanfinance.de nur lesen, ohne
-  einen Termin zu buchen, erfährt die Lorem Ipsum Finanz GmbH nichts davon.</p>
+  das Formular abzuschicken und ohne einen Termin zu buchen, erfährt weder Microsoft noch die
+  Lorem Ipsum Finanz GmbH etwas davon.</p>
 
   <p>Termindaten löschen wir, sobald sie für die Terminabwicklung nicht mehr benötigt werden —
   spätestens nach Ablauf gesetzlicher Aufbewahrungsfristen, sofern aus dem Termin eine
@@ -273,6 +438,12 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px;
   Datenschutzerklärung, nicht mehr unsere.</p>
 
   <table class="tbl">
+    <tr>
+      <th>Microsoft Forms<br>Microsoft Bookings</th>
+      <td>Kontaktformular und Terminbuchung. Anbieter: Microsoft Ireland Operations Limited.
+      Einzelheiten in Abschnitt 4.<br>
+      <a href="https://privacy.microsoft.com/de-de/privacystatement" target="_blank" rel="noopener">privacy.microsoft.com</a></td>
+    </tr>
     <tr>
       <th>YouTube</th>
       <td>Videos zu Fachthemen. Anbieter: Google Ireland Limited.<br>
@@ -346,18 +517,60 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px;
   erfordert. Es gilt jeweils die hier abrufbare Fassung. Das Datum der letzten Änderung steht unten
   auf dieser Seite.</p>
 
-  <div class="footer">
+  <!-- ================= Fußzeile ================= -->
+<div class="footer">
+  <div class="wrap">
     <img class="logo" src="data:image/png;base64,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" alt="dandanfinance">
+    <div class="social">
+      <a href="https://www.instagram.com/dandanfinance/" target="_blank" rel="noopener">Instagram</a> ·
+      <a href="https://www.tiktok.com/@dandanfinance" target="_blank" rel="noopener">TikTok</a>
+    </div>
     <div>
       <a href="/impressum/">Impressum</a> ·
       <a href="/datenschutz/">Datenschutz</a> ·
       <a href="/erstinformation/">Erstinformation</a>
     </div>
     <div class="cr">© dandanfinance</div>
-    <div class="stand">Stand: August 2026</div>
+    <div class="stand">Stand: September 2026</div>
   </div>
+</div>
 
 </div>
+
+<script>
+// Untermenues. Am Zeiger klappen sie schon beim Darueberfahren auf (das
+// macht das CSS); hier geht es um Klick, Beruehrung und Tastatur.
+(function(){
+  function zu(ausser){
+    document.querySelectorAll('.ni.offen').forEach(function(n){
+      if (n === ausser) return;
+      n.classList.remove('offen');
+      var b = n.querySelector('.pfeil');
+      if (b) b.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  window.menuAuf = function(knopf){
+    var ni = knopf.closest('.ni');
+    var offen = !ni.classList.contains('offen');
+    zu(ni);
+    ni.classList.toggle('offen', offen);
+    knopf.setAttribute('aria-expanded', offen ? 'true' : 'false');
+  };
+
+  // Klick daneben schliesst, Escape ebenfalls.
+  document.addEventListener('click', function(e){
+    if (!e.target.closest('.ni')) zu(null);
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') zu(null);
+  });
+  // Beim Verlassen mit der Tastatur zugehen lassen.
+  document.addEventListener('focusin', function(e){
+    if (!e.target.closest('.ni')) zu(null);
+  });
+})();
+</script>
 
 </body>
 </html>
